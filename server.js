@@ -2,7 +2,7 @@ const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
 
-// Initialize app and database
+// Initializing app and database
 const app = express();
 const PORT = 3000;
 const db = new sqlite3.Database("drug_data.db");
@@ -11,7 +11,7 @@ const db = new sqlite3.Database("drug_data.db");
 app.use(cors());
 app.use(express.json());
 
-// Route: Search for a drug
+// Route: Searching for a drug
 app.get("/search", (req, res) => {
     const drugName = req.query.name;
     if (!drugName) {
