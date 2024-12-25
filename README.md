@@ -67,6 +67,5 @@ Python: requests, beautifulsoup4, pandas, sqlite3.
 Node.js: express, sqlite3, cors.
 Run the Python script to scrape and populate the database.
 Start the backend server:
-Copy code
 node server.js
 Open the index.html file in a browser and search for drug information.
