@@ -50,7 +50,8 @@ Error handling for missing drug names or server issues.
 
 
    
-How It Works
+How It Works:
+
 Data Scraping:
 Run the Python script to scrape data and populate the SQLite database.
 Backend:
@@ -60,7 +61,8 @@ Access the HTML interface to search for drugs and view details dynamically.
 -------------x-----------------------x-----------------------x--------------------------x
 
    
-How to Use
+How to Use:
+
 Clone this repository.
 Install dependencies:
 Python: requests, beautifulsoup4, pandas, sqlite3.
