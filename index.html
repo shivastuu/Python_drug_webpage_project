@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drug Search</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Times New Roman', serif;
+            background: linear-gradient(to top, #2d2d2d, #3a3a3a);
+            background-attachment: fixed;
+            height: auto;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 80px;
+        }
+
+        /* Container */
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Header */
+        h1 {
+            color: #4a4e69;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Input field */
+        input[type="text"] {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #4a4e69;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #70e000;
+            box-shadow: 0 0 8px #70e000;
+        }
+
+        /* Button */
+        button {
+            background: #4a4e69;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        button:hover {
+            background: #22223b;
+            transform: scale(1.1);
+        }
+
+        /* Result box */
+        .result {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 1rem;
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        /* Detailed Information Box */
+        .details {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 1rem;
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        /* Error message */
+        .error {
+            color: #ff4d4d;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .result p {
+            animation: slideIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Drug Search</h1>
+        <input type="text" id="drugName" placeholder="Enter Drug Name">
+        <button onclick="searchDrug()">Search</button>
+        <div id="output" class="result"></div>
+        <div id="details" class="details"></div>
+    </div>
+    <script>
+        async function searchDrug() {
+            const drugName = document.getElementById("drugName").value.trim();
+            const output = document.getElementById("output");
+            const details = document.getElementById("details");
+            output.innerHTML = "";
+            details.style.display = "none";
+
+            if (!drugName) {
+                output.innerHTML = `<p class="error">Please enter a drug name.</p>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/search?name=${encodeURIComponent(drugName)}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    output.innerHTML = `
+                        <h3>Search Results:</h3>
+                        ${data
+                            .map(
+                                (drug, index) =>
+                                    `<p><strong>Drug:</strong> <a href="#" onclick="showDetails(${index})">${drug.Drug}</a><br><strong>Uses:</strong> ${drug.Uses}</p>`
+                            )
+                            .join("")}
+                    `;
+                    window.drugDetails = data; // Store the data globally for further use
+                } else if (response.status === 404) {
+                    output.innerHTML = `<p class="error">Drug not found. Please try another name.</p>`;
+                } else {
+                    output.innerHTML = `<p class="error">Something went wrong. Please try again later.</p>`;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                output.innerHTML = `<p class="error">Unable to connect to the server. Please try again later.</p>`;
+            }
+        }
+
+        function showDetails(index) {
+            const details = document.getElementById("details");
+            const drug = window.drugDetails[index]; // Access the stored drug data
+
+            details.innerHTML = `
+                <h3>Details for ${drug.Drug}:</h3>
+                <p><strong>Side Effects:</strong> ${drug.SideEffect}</p>
+            `;
+            details.style.display = "block";
+        }
+    </script>
+</body>
+</html>
