@@ -5,14 +5,17 @@ This project combines web scraping, data cleaning, and backend development to cr
 
 
 
-Key Features
+Key Features:
+
 1. Web Scraping and Data Analysis
 Objective: Scrape drug names, uses, and side effects from Drugs.com.
+
 Libraries Used:
 requests: Fetches HTML content from the web.
 BeautifulSoup: Parses and extracts relevant data.
 pandas: Cleans and processes the data into structured formats.
 sqlite3: Stores and queries the cleaned data in a local SQL database.
+
 Process:
 Scrape details for 50 drugs, including their names, uses, and side effects.
 Clean and normalize the data (remove duplicates, standardize formats).
@@ -26,6 +29,7 @@ Count of unique drug names.
 
    
 2. Backend
+
 Tech Stack:
 Node.js with Express.js: Handles API routes and server logic.
 SQLite3: Database used to store and retrieve drug data.
@@ -37,10 +41,12 @@ API Endpoint:
 
    
 3. Frontend
+
 Tech Stack:
 Basic HTML, CSS, and JavaScript.
 CSS provides a responsive, user-friendly UI with animations.
 JavaScript handles dynamic drug search and displays results fetched from the backend.
+
 Features:
 Input field for entering drug names.
 Display search results (drug name and uses).
