@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drug Search</title>
     <style>
-        /* Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Body Styling */
         body {
             font-family: 'Times New Roman', serif;
             background: linear-gradient(to top, #2d2d2d, #3a3a3a);
@@ -25,7 +23,7 @@
             padding-top: 80px;
         }
 
-        /* Container */
+ 
         .container {
             background: #ffffff;
             padding: 30px;
@@ -36,14 +34,14 @@
             animation: fadeIn 1s ease-in-out;
         }
 
-        /* Header */
+       
         h1 {
             color: #4a4e69;
             font-size: 2rem;
             margin-bottom: 20px;
         }
 
-        /* Input field */
+   
         input[type="text"] {
             width: 80%;
             padding: 12px;
@@ -60,7 +58,7 @@
             box-shadow: 0 0 8px #70e000;
         }
 
-        /* Button */
+     
         button {
             background: #4a4e69;
             color: #ffffff;
@@ -77,7 +75,7 @@
             transform: scale(1.1);
         }
 
-        /* Result box */
+    
         .result {
             margin-top: 20px;
             text-align: left;
@@ -91,7 +89,7 @@
             max-height: 300px;
         }
 
-        /* Detailed Information Box */
+      
         .details {
             margin-top: 20px;
             text-align: left;
@@ -109,7 +107,7 @@
             color: #ff4d4d;
         }
 
-        /* Animations */
+      
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -171,7 +169,7 @@
                             )
                             .join("")}
                     `;
-                    window.drugDetails = data; // Store the data globally for further use
+                    window.drugDetails = data;
                 } else if (response.status === 404) {
                     output.innerHTML = `<p class="error">Drug not found. Please try another name.</p>`;
                 } else {
@@ -185,7 +183,7 @@
 
         function showDetails(index) {
             const details = document.getElementById("details");
-            const drug = window.drugDetails[index]; // Access the stored drug data
+            const drug = window.drugDetails[index];
 
             details.innerHTML = `
                 <h3>Details for ${drug.Drug}:</h3>
