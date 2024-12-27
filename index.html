@@ -23,7 +23,6 @@
             padding-top: 80px;
         }
 
- 
         .container {
             background: #ffffff;
             padding: 30px;
@@ -34,14 +33,12 @@
             animation: fadeIn 1s ease-in-out;
         }
 
-       
         h1 {
             color: #4a4e69;
             font-size: 2rem;
             margin-bottom: 20px;
         }
 
-   
         input[type="text"] {
             width: 80%;
             padding: 12px;
@@ -58,7 +55,6 @@
             box-shadow: 0 0 8px #70e000;
         }
 
-     
         button {
             background: #4a4e69;
             color: #ffffff;
@@ -75,7 +71,6 @@
             transform: scale(1.1);
         }
 
-    
         .result {
             margin-top: 20px;
             text-align: left;
@@ -89,7 +84,6 @@
             max-height: 300px;
         }
 
-      
         .details {
             margin-top: 20px;
             text-align: left;
@@ -102,12 +96,10 @@
             display: none;
         }
 
-        /* Error message */
         .error {
             color: #ff4d4d;
         }
 
-      
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -140,16 +132,14 @@
         <h1>Drug Search</h1>
         <input type="text" id="drugName" placeholder="Enter Drug Name">
         <button onclick="searchDrug()">Search</button>
+        <button onclick="fetchUniqueDrugCount()">Unique Drug Count</button>
         <div id="output" class="result"></div>
-        <div id="details" class="details"></div>
     </div>
     <script>
         async function searchDrug() {
             const drugName = document.getElementById("drugName").value.trim();
             const output = document.getElementById("output");
-            const details = document.getElementById("details");
             output.innerHTML = "";
-            details.style.display = "none";
 
             if (!drugName) {
                 output.innerHTML = `<p class="error">Please enter a drug name.</p>`;
@@ -165,7 +155,7 @@
                         ${data
                             .map(
                                 (drug, index) =>
-                                    `<p><strong>Drug:</strong> <a href="#" onclick="showDetails(${index})">${drug.Drug}</a><br><strong>Uses:</strong> ${drug.Uses}</p>`
+                                    `<p><strong>Drug:</strong> <a href="#" onclick="showDetails(${index})">${drug.Drug}</a><br><strong>Uses:</strong> ${drug.Uses}<br><strong>Side Effects:</strong> ${drug.SideEffect}</p>`
                             )
                             .join("")}
                     `;
@@ -181,15 +171,22 @@
             }
         }
 
-        function showDetails(index) {
-            const details = document.getElementById("details");
-            const drug = window.drugDetails[index];
-
-            details.innerHTML = `
-                <h3>Details for ${drug.Drug}:</h3>
-                <p><strong>Side Effects:</strong> ${drug.SideEffect}</p>
-            `;
-            details.style.display = "block";
+        async function fetchUniqueDrugCount() {
+            try {
+                const response = await fetch(`http://localhost:3000/unique-count`);
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById("output").innerHTML = `
+                        <h3>Total Unique Drugs:</h3>
+                        <p>${data.uniqueDrugCount}</p>
+                    `;
+                } else {
+                    document.getElementById("output").innerHTML = `<p class="error">Unable to fetch unique drug count.</p>`;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("output").innerHTML = `<p class="error">Unable to connect to the server. Please try again later.</p>`;
+            }
         }
     </script>
 </body>
