@@ -33,6 +33,18 @@ app.get("/search", (req, res) => {
     });
 });
 
+// Route: Fetching unique drug count
+app.get("/unique-count", (req, res) => {
+    const query = `SELECT COUNT(DISTINCT Drug) as uniqueDrugCount FROM drugs`;
+    db.get(query, (err, row) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+        res.json(row);
+    });
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
